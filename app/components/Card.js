@@ -1,3 +1,4 @@
+'use client'
 import {
     Card,
     CardContent,
@@ -6,8 +7,26 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
+import { useEffect, useState } from "react";
   
-  export default function Cards() {
+export  default  function Cards() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch('/api/posts');
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        console.error(error);
+        // Handle the error appropriately
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
     return (
       <Card className ="flex items-center justify-center flex-col">
         <CardHeader>
@@ -31,3 +50,5 @@ import {
       </Card>
     )
   }
+
+  
